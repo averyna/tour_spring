@@ -1,0 +1,33 @@
+<Context>
+    <Resource name="jdbc/tour"
+              auth="Container"
+              type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              testWhileIdle="false"
+              testOnBorrow="true"
+              testOnReturn="false"
+              validationQuery="SELECT 1"
+              validationInterval="3000"
+              maxActive="10"
+              minIdle="5"
+              maxWait="10000"
+              initialSize="5"
+              timeBetweenEvictionRunsMillis="5000"
+              removeAbandonedTimeout="60"
+              removeAbandoned="true"
+              logAbandoned="true"
+              minEvictableIdleTimeMillis="30000"
+              jmxEnabled="true"
+              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
+                    org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+              username="olga"
+              password="olga"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/tour"/>
+
+    <!--<Parameter name="companyName" value="My Company, Incorporated"-->
+               <!--override="false"/>-->
+    <!--<Environment name="myConnectionURL"-->
+                 <!--value="amqp:5272//blah.example.com&amp;param1=4"-->
+                 <!--type="java.lang.String"/>-->
+</Context>

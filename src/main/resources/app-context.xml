@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       ">
+    <!--эта строка говорит - сканируй все компоненты в этом пакете и ищи свои конфигурационные аннотации
+     @Component, @Repository, или @Aspect. Если такой класс найден, автоматически такой класс
+     регистрируется как бин в контексте приложения Spring.-->
+    <context:component-scan base-package="edu.olya.tour"/>
+
+    <!--если встретишь аннотации Aspect создавай аспекты и применяй их-->
+    <aop:aspectj-autoproxy/>
+
+    <!--тут явным образом аспект указал потому что непонятно почему не подтянулся-->
+    <!--аспект - это элемент АОП, который врезается в нужное место вызова
+    (до/после/ вместо вызова целевого метода)
+    до этого мы делали то же самое только через Proxy-->
+
+    <bean class="edu.olya.tour.utils.cache.CacheManager"/>
+
+<!--    <bean id="tourDao" class="edu....TourDAO"/>
+
+    <bean id="tourService" class="edu....TourServiceImpl" autowire="">
+        <property name="tourDao" ref="tourDao"/>
+    </bean>-->
+
+
+    <context:annotation-config/>
+    <!--looks for annotations on beans in the same application context in which it is defined.-->
+    <!--This means that, if you put <context:annotation-config/> in a WebApplicationContext -->
+    <!--for a DispatcherServlet, it only checks for @Autowired beans in your controllers, -->
+    <!--and not your services. See The DispatcherServlet for more information.-->
+
+
+    <!--для управления транзакциями в Spring существует пространство имен tx, в котором определена, -->
+    <!--в частности, директива tx:annotation-driven, включающая механизм управления транзакциями через аннотации.-->
+    <tx:annotation-driven />
+
+    <context:component-scan base-package="edu.olya.tour" />
+
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/tour"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="edu.olya.tour.model" />
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory" p:dataSource-ref="dataSource">
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
