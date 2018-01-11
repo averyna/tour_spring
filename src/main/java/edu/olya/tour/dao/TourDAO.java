@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TourDAO {
-    List<TourView> searchTours(Map<String, String[]> searchParameters);
+    List<TourView> searchTours(Map<String, String> searchParameters);
     void insertTour(Tour tour);
     int deleteTour(int tourId);
 

@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void deleteComment(long id) {
+    public void deleteComment(int id) {
         commentDAO.deleteComment(id);
     }
 }

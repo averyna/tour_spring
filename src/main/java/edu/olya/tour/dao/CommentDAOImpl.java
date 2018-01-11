@@ -20,7 +20,7 @@ public class CommentDAOImpl extends AbstractDAO implements CommentDAO {
     }
 
     @Override
-    public int deleteComment(long id) {
+    public int deleteComment(int id) {
         return getSession()
                 .createQuery("delete from Comment where id=:id")
                 .setParameter("id", id)

@@ -1,11 +1,5 @@
 package edu.olya.tour.utils.context;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NameClassPair;
-import javax.naming.NamingEnumeration;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.servlet.*;
 import java.io.IOException;
 

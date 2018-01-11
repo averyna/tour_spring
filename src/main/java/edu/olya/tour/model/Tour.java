@@ -1,5 +1,7 @@
 package edu.olya.tour.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.io.Serializable;
@@ -29,6 +31,8 @@ public class Tour implements Serializable {
 
     //In 2017, JPA still has only @Column(columnDefinition='...') to which you put the literal SQL definition of the column.
     @Column(name = "start_date", columnDefinition="date DEFAULT (now())::date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") //to handle binding with form input
+    @Temporal(value=TemporalType.DATE) //to set date without time
     private Date startDate;
 
     @Column(name = "adults", columnDefinition="integer default 2")
@@ -64,56 +68,6 @@ public class Tour implements Serializable {
         this.hotelId = hotelId;
         this.mealTypeId = mealTypeId;
         this.price = price;
-    }
-
-    public static Tour parse(Map<String, String[]> parameterMap)
-            throws NumberFormatException, IllegalAccessException, ParseException{
-
-        Tour tour = new Tour();
-
-        for (Map.Entry<String, String []> param : parameterMap.entrySet()) {
-            String paramName = param.getKey();
-
-            String paramValue = Arrays.toString( param.getValue());
-            //System.out.println(paramName + " /" + paramValue + "/");
-            paramValue = paramValue.substring(1, paramValue.length() - 1);
-
-            Field field = null;
-            try {
-                //field gets all information about field "paramName"
-                field = Tour.class.getDeclaredField(paramName);
-                //System.out.println(field);
-                //After gerDeclaredField()  field = private java.lang.String main.java.edu.olya.mytour.dao.SearchParam.meal_type
-            } catch (NoSuchFieldException e) {
-                //throw new Exception("Unknown argument name: " + paramName);
-                //System.out.println("Unknown argument name: " + paramName); // for submit button
-                continue;
-            }
-            Class fieldType = field.getType(); //fieldType =  public class java.io.File
-
-      //      try {
-                PropertyEditor pe = PropertyEditorManager.findEditor(fieldType); //Class fieldType = field.getType()
-                if (pe == null) { //if editor can't be found
-                    //If the specified object argument is an instance of the class or interface
-                    //declaring the underlying field
-                    if (fieldType == Date.class && paramValue.length() > 0) {
-                        //@param obj - the object whose field should be modified
-                        //@param value - the new value for the field
-                        field.set(tour, new SimpleDateFormat("yyyy-MM-dd").parse(paramValue)); //field == reference to the field
-                    }
-                    if (fieldType == BigDecimal.class && (paramValue.length() > 0)) {
-                        field.set(tour, new BigDecimal(paramValue));
-                    }
-                    // if there is an editor
-                } else if(paramValue.length() > 0) {
-                    pe.setAsText(paramValue); //Set the property value by parsing a given String
-                    field.set(tour, pe.getValue());
-                }
-//            } catch (NumberFormatException | IllegalAccessException | ParseException e) {
-//                //throw new ValidationException("Invalid data type " + paramName + " = " + paramValue + ", but required " + fieldType.getCanonicalName());
-//            }
-        }
-        return tour;
     }
 
     public Integer getId() {

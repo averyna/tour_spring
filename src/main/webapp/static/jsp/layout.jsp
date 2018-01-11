@@ -10,6 +10,7 @@
     <meta name="description" content="Турагентство Сусанин Тур. Отдых, курорты, билеты. ">
     <meta name="keywords" content="отдых, туры, путевки">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="http://localhost:8080/tour/"/>
     <link rel="shortcut icon" href="static/icons/right-footprint.ico" type="image/x-icon">
     <link rel="stylesheet" href="static/styles/layout_style.css">
     <script src="static/scripts/layout_script.js"></script>
@@ -44,15 +45,15 @@
 
     <div class="topnav">
         <ul>
-            <li><a href="/tour/view?page=index.jsp">Главная</a></li>
-            <li><a href="/tour/tourSearch">Подбор тура</a></li>
-            <li><a href="/tour/tourSearch">Горящие туры</a></li>
-            <li><a href="/tour/view?page=contacts.jsp">Контакты</a></li>
-            <li><a href="/tour/comment">Отзывы</a></li>
+            <li><a href="/tour/mvc/view?page=index.jsp">Главная</a></li>
+            <li><a href="/tour/mvc/tourSearch/">Подбор тура</a></li>
+            <li><a href="/tour/mvc/tourSearch/">Горящие туры</a></li>
+            <li><a href="/tour/mvc/view?page=contacts.jsp">Контакты</a></li>
+            <li><a href="/tour/mvc/comment/">Отзывы</a></li>
             <my:securedContent tagRole="admin">
                 <jsp:body>
-                    <li><a href="/tour/addTour">Добавить тур</a></li>
-                    <li><a href="/tour/delTour">Удалить тур</a></li>
+                    <li><a href="/tour/mvc/addTour/">Добавить тур</a></li>
+                    <li><a href="/tour/mvc/delTour/">Удалить тур</a></li>
                 </jsp:body>
             </my:securedContent>
         </ul>

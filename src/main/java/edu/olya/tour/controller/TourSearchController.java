@@ -1,31 +1,34 @@
 package edu.olya.tour.controller;
 
-
 import edu.olya.tour.model.TourView;
 import edu.olya.tour.service.TourService;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-public class TourSearchController extends HttpServlet {
-    private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
+@Controller
+@RequestMapping("/tourSearch")
+public class TourSearchController {
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Autowired
+    TourService tourService;
 
-        WebApplicationContext wc = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-        TourService tourService = wc.getBean(TourService.class);
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ModelAndView search(@RequestParam Map<String, String> searchParameters) {
+        //todo: deal with parameters
+        //List<TourView> tours = tourService.searchTours(request.getParameterMap());
+        List<TourView> tours = tourService.searchTours(searchParameters); //"null" - temporary
+        ModelMap model = new ModelMap();
+        model.put("tours", tours);
+        model.put("page", "tour_search.jsp");
 
-        List<TourView> tours = tourService.searchTours(request.getParameterMap());
-
-        request.setAttribute("tours", tours);
-        request.setAttribute("page", "tour_search.jsp");
-        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
+        return new ModelAndView("layout", model);
     }
 }

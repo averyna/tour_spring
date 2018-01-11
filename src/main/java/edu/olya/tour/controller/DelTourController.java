@@ -1,61 +1,48 @@
 package edu.olya.tour.controller;
 
 import edu.olya.tour.model.TourView;
-import edu.olya.tour.service.FilterService;
 import edu.olya.tour.service.TourService;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "DelTourController")
-public class DelTourController extends HttpServlet {
-    private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
+@Controller
+@RequestMapping ("/delTour")
+public class DelTourController {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        WebApplicationContext wc = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-        TourService tourService = wc.getBean(TourService.class);
+    @Autowired
+    TourService tourService;
 
-        List<TourView> tours = tourService.searchTours(null);
-        request.setAttribute("tours", tours);
-
-        request.setAttribute("page", "del_tour.jsp");
-        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
+    @RequestMapping(path = "/")
+    public ModelAndView processParams(@RequestParam Map<String, String> searchParameters) {
+        List<TourView> tours = tourService.searchTours(searchParameters);
+        ModelMap model = new ModelMap();
+        model.put("page", "del_tour.jsp");
+        model.put("tours", tours);
+        return new ModelAndView("layout", model);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        WebApplicationContext wc = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-        TourService tourService = wc.getBean(TourService.class);
+    //@RequestMapping(params = "dept") - can use param without value, just ro show it's presence
 
-        String button = request.getParameter("submit_button");
-        if (button != null && button.compareTo("Удалить") == 0) {
-            int qty = 0;
+    @RequestMapping(path = "/", method = RequestMethod.POST, params = {"submit_button=Удалить"})
+    public ModelAndView deleteTour(@RequestParam("id") int[] id /*required*/) {
+        int qty = 0;
 
-            String[] tourIds = request.getParameterValues("id");
-            for (String id : tourIds) {
-                int tourId = Integer.getInteger(id);
-                qty += tourService.deleteTour(tourId);
-            }
-            request.setAttribute("deleted", qty);
-        } else {
-            Map<String, String[]> searchParameters = new HashMap<>();
-
-            for (Map.Entry<String, String[]> param : request.getParameterMap().entrySet()) {
-                searchParameters.put(param.getKey(), param.getValue());
-            }
-
-            List<TourView> tours = tourService.searchTours(searchParameters);
-            request.setAttribute("tours", tours);
+        for (int tourId : id) {
+            qty += tourService.deleteTour(tourId);
         }
-        request.setAttribute("page", "del_tour.jsp");
-        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
+        ModelMap model = new ModelMap();
+        model.put("page", "del_tour.jsp");
+        model.put("deleted", qty);
+        return new ModelAndView("layout", model);
+
+
     }
 }

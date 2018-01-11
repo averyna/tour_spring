@@ -35,7 +35,7 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
 
 
     @Override
-    public List<TourView> searchTours(Map<String, String[]> searchParameters) {
+    public List<TourView> searchTours(Map<String, String> searchParameters) {
         EntityManager em = sessionFactory.createEntityManager();
 
         //Used to construct criteria queries, compound selections, expressions, predicates, orderings.
@@ -49,11 +49,11 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
 
         Predicate condition = null;
 
-        for (Map.Entry<String, String[]> e : searchParameters.entrySet()) {
+        for (Map.Entry<String, String> e : searchParameters.entrySet()) {
             String propertyName = e.getKey();
-            String[] value = e.getValue();
+            String value = e.getValue();
 
-            if (value[0].length() > 0) {
+            if (value.length() > 0) {
 
                 Predicate constraint = null;
 
@@ -61,7 +61,7 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
                     //java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Date
                     Date date;
                     try {
-                        date = new SimpleDateFormat("yyyy-MM-dd").parse(value[0]);
+                        date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
                     } catch (ParseException ex) {
                         date = new Date();
                     }
@@ -69,15 +69,15 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
 
                 } else if (propertyName.equals("nights")) {
 
-                    constraint = cb.greaterThanOrEqualTo(p.get(propertyName), value[0]);
+                    constraint = cb.greaterThanOrEqualTo(p.get(propertyName), value);
 
                 } else if (propertyName.equals("price")) {
 
-                    constraint = cb.lessThanOrEqualTo(p.get(propertyName), value[0]);
+                    constraint = cb.lessThanOrEqualTo(p.get(propertyName), value);
 
                 } else {
                     try {
-                        constraint = cb.equal(p.get(propertyName), value[0]);
+                        constraint = cb.equal(p.get(propertyName), value);
                     } catch (IllegalArgumentException ex) {
                         //"submit_button" parameter came - it is not a field of TourView class
                         //so let's proceed to the next cycle iteration

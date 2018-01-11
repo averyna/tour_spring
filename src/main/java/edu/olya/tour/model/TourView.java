@@ -1,5 +1,7 @@
 package edu.olya.tour.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.io.Serializable;
@@ -28,6 +30,8 @@ public class TourView implements Serializable {
     private String tourType;
 
     @Column(name = "start_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd") //to handle binding with form input
+    @Temporal(value=TemporalType.DATE) //убираем время из Date, оставляем только дату
     private Date startDate;
 
     @Column(name = "adults", nullable = false)

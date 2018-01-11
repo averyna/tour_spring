@@ -1,15 +1,10 @@
 package edu.olya.tour.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
 
 @Entity
 @Table(name = "comments")
@@ -25,6 +20,8 @@ public class Comment implements Serializable {
 
     //date date NOT NULL DEFAULT (now())::date
     @Column(name = "date", columnDefinition="date DEFAULT (now())::date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") //to handle binding with form input
+    @Temporal(value=TemporalType.DATE) //убираем время из Date, оставляем только дату
     private Date date;
 
     @Column(name = "comment", nullable = false)

@@ -11,5 +11,5 @@ public interface CommentDAO {
 
     void insertComment(Comment comment);
 
-    int deleteComment(long id);
+    int deleteComment(int id);
 }

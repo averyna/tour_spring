@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE>
 <html lang="en-us">
@@ -20,20 +21,38 @@
 </div>
 
 <div class="comment_box">
-    <form action="/tour/comment" method="post" id="comment_form">
+    <form:form action="/tour/mvc/comment/" method="post" id="comment_form" modelAttribute="comment">
         <div class="author_date">
             <label class="inner">Введите Ваше имя</label>
-            <input class="comment_input" type="text" name="author" pattern="^[А-Я а-я]+$" />
+            <form:input class="comment_input" type="text" path="author" name="author" pattern="^[А-Я а-я]+$" />
         </div>
         <jsp:useBean id="now" class="java.util.Date"/>
         <fmt:formatDate var="now" type="date" value="${now}" pattern="yyyy-MM-dd"/>
-        <input type="hidden" name="date" value="${now}"/>
-        <textarea class="comment" name="comment"  rows="3"
-                  placeholder="Введите Ваш отзыв..." required></textarea>
+        <form:input type="hidden" path="date" name="date" value="${now}"/>
+        <form:textarea class="comment" path="comment" name="comment"  rows="3"
+                  placeholder="Введите Ваш отзыв..." />
         <input class="comment_submit_button" type="submit" name="comment_submit_form" value="Добавить отзыв"/>
 
-    </form>
+    </form:form>
 </div>
 </body>
 </html>
 
+
+<%--<div class="comment_box">--%>
+    <%--<form action="/tour/mvc/comment/" method="post" id="comment_form">--%>
+        <%--<div class="author_date">--%>
+            <%--<label class="inner">Введите Ваше имя</label>--%>
+            <%--<input class="comment_input" type="text" name="author" pattern="^[А-Я а-я]+$" />--%>
+        <%--</div>--%>
+        <%--<jsp:useBean id="now" class="java.util.Date"/>--%>
+        <%--<fmt:formatDate var="now" type="date" value="${now}" pattern="yyyy-MM-dd"/>--%>
+        <%--<input type="hidden" name="date" value="${now}"/>--%>
+        <%--<textarea class="comment" name="comment"  rows="3"--%>
+                  <%--placeholder="Введите Ваш отзыв..." required></textarea>--%>
+        <%--<input class="comment_submit_button" type="submit" name="comment_submit_form" value="Добавить отзыв"/>--%>
+
+    <%--</form>--%>
+<%--</div>--%>
+<%--</body>--%>
+<%--</html>--%>

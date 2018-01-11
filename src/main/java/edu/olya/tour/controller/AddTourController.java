@@ -1,41 +1,54 @@
 package edu.olya.tour.controller;
 
 import edu.olya.tour.model.Tour;
-import edu.olya.tour.service.FilterService;
 import edu.olya.tour.service.TourService;
-import edu.olya.tour.utils.ObjectBuilder;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-@WebServlet(name = "AddTourController")
-public class AddTourController extends HttpServlet {
+@Controller
+@RequestMapping("/addTour")
+public class AddTourController {
+//    final static ModelAndView ADD_TOUR_PAGE = new ModelAndView("layout",
+//            "page",
+//            "add_tour.jsp"
+//    );
 
-    private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
+    @Autowired
+    TourService tourService;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        WebApplicationContext wc = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-        TourService tourService = wc.getBean(TourService.class);
-
-        if (!request.getParameterMap().isEmpty()) {
-            Tour tour = ObjectBuilder.parse(request.getParameterMap(), new Tour());
-            tourService.insertTour(tour);
-        }
-        request.setAttribute("page", "add_tour.jsp");
-        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ModelAndView getView() {
+        ModelMap model = new ModelMap();
+        model.put("page", "add_tour.jsp");
+        model.put("tour", new Tour());
+        return new ModelAndView("layout", model);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("page", "add_tour.jsp");
-        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
+    @RequestMapping(path = "/", method = RequestMethod.POST)
+    public ModelAndView saveTour(@ModelAttribute ("tour") Tour tour, BindingResult result) {
+        if(result.hasErrors()){
+            //todo: log and inform client
+        }
+        tourService.insertTour(tour);
+        return getView();
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat,false));
     }
 }
-
-

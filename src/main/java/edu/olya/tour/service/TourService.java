@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface TourService {
     //@CacheConfig()
-    List<TourView> searchTours(Map<String, String[]> searchParameters);
+    List<TourView> searchTours(Map<String, String> searchParameters);
 
     void insertTour(Tour tour);
 

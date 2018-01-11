@@ -1,8 +1,10 @@
 
 .add_tour{
   display:inline-block;
-  width:50%;
-  margin: 10px;
+  width:30%;
+  /*margin: 10px;*/
+    position: relative;
+    margin-left: 35%;
 }
 .filter_form select, label, input {
 	width:100%;

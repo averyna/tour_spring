@@ -24,7 +24,7 @@ public class TourServiceImpl implements TourService {
     @CacheConfig(params = {
             @CacheParam(key = "expiration", value = "7000")
     })
-    public List<TourView> searchTours(Map<String, String[]> searchParameters) {
+    public List<TourView> searchTours(Map<String, String> searchParameters) {
         return tourDAO.searchTours(searchParameters);
     }
 

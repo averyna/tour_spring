@@ -19,6 +19,23 @@
         <param-value>classpath:app-context.xml</param-value>
     </context-param>
 
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:app-context.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>/mvc/*</url-pattern>
+    </servlet-mapping>
+
+    <!--                         -->
+
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>edu.olya.tour.utils.context.RequestEncodingFilter</filter-class>
@@ -40,81 +57,10 @@
 
     <filter-mapping>
         <filter-name>FormFilter</filter-name>
-        <url-pattern>/addTour</url-pattern>
-        <url-pattern>/delTour</url-pattern>
-        <url-pattern>/tourSearch</url-pattern>
+        <url-pattern>/mvc/addTour/</url-pattern>
+        <url-pattern>/mvc/delTour/</url-pattern>
+        <url-pattern>/mvc/tourSearch/</url-pattern>
     </filter-mapping>
-
-    <servlet>
-        <servlet-name>pageController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.PageController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>pageController</servlet-name>
-        <url-pattern>/view</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>addTourController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.AddTourController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>addTourController</servlet-name>
-        <url-pattern>/addTour</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>delTourController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.DelTourController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>delTourController</servlet-name>
-        <url-pattern>/delTour</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>tourSearchController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.TourSearchController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>tourSearchController</servlet-name>
-        <url-pattern>/tourSearch</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>commentController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.CommentController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>commentController</servlet-name>
-        <url-pattern>/comment</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>phoneCallController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.PhoneCallController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>phoneCallController</servlet-name>
-        <url-pattern>/phoneCallQuery</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>mailController</servlet-name>
-        <servlet-class>edu.olya.tour.controller.MailController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>mailController</servlet-name>
-        <url-pattern>/mailSubscription</url-pattern>
-    </servlet-mapping>
-
 
     <!-- Servlet-Exception Handling -->
     <!-- servlet definition -->
@@ -129,14 +75,27 @@
         <url-pattern>/errorHandler</url-pattern>
     </servlet-mapping>
 
-    <session-config>
-        <cookie-config>
-            <comment>эти параметры изучи документация</comment>
-        </cookie-config>
-        <session-timeout>30</session-timeout>
-        <tracking-mode>COOKIE</tracking-mode>
-    </session-config>
-     <!--&lt;!&ndash; error-code related error pages &ndash;&gt;-->
+
+
+
+    <!---->
+    <!--<session-config>-->
+        <!--<cookie-config>-->
+            <!--<comment>эти параметры изучи документация</comment>-->
+        <!--</cookie-config>-->
+        <!--<!<session-timeout>30</session-timeout>-->-->
+        <!--<tracking-mode>COOKIE</tracking-mode>-->
+    <!--</session-config>-->
+    <!---->
+    <!---->
+    <!---->
+
+
+
+
+
+
+     <!--error-code related error pages -->
     <!--<error-page>-->
         <!--<error-code>404</error-code>-->
         <!--<location>/errorHandler</location>-->
@@ -157,7 +116,7 @@
         <!--<location>/errorHandler</location>-->
     <!--</error-page>-->
 
-    <!--&lt;!&ndash; exception-type related error pages &ndash;&gt;-->
+    <!--<exception-type related error pages >-->
     <!--<error-page>-->
         <!--<exception-type>-->
             <!--javax.servlet.ServletException-->

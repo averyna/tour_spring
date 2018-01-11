@@ -1,27 +1,24 @@
 package edu.olya.tour.controller;
 
-import com.google.gson.Gson;
 import edu.olya.tour.model.ClientToCall;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Properties;
 
-public class PhoneCallController extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Gson gson = new Gson();
-        ClientToCall client = gson.fromJson(request.getHeader("Json"), ClientToCall.class);
+@Controller
+@RequestMapping("/phoneCall")
+public class PhoneCallController {
 
-        sendToManager(client);
-    }
+    @RequestMapping(path = "/", method = RequestMethod.POST) // consumes="application/json"
+    public void proceedQuery(ClientToCall client) {
+        // Gson gson = new Gson();
+        //ClientToCall client = gson.fromJson(request.getHeader("Json"), ClientToCall.class);
 
-    private void sendToManager(ClientToCall client) {
         final String username = "susanin";
         final String password = "password";
 
@@ -60,5 +57,4 @@ public class PhoneCallController extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-
 }
