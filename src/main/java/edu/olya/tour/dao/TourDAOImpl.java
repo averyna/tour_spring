@@ -41,7 +41,7 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
         //Used to construct criteria queries, compound selections, expressions, predicates, orderings.
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
-        //создается пустой запрос, но с определенным типом возвращаемого результата
+        //create query object with the specified result type
         CriteriaQuery<TourView> c = cb.createQuery(TourView.class);
 
         //Create and add a query root corresponding to the given entity
@@ -49,45 +49,47 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
 
         Predicate condition = null;
 
-        for (Map.Entry<String, String> e : searchParameters.entrySet()) {
-            String propertyName = e.getKey();
-            String value = e.getValue();
+        if (searchParameters != null) {
+            for (Map.Entry<String, String> e : searchParameters.entrySet()) {
+                String propertyName = e.getKey();
+                String value = e.getValue();
 
-            if (value.length() > 0) {
+                if (value.length() > 0) {
 
-                Predicate constraint = null;
+                    Predicate constraint = null;
 
-                if (propertyName.equals("startDate")) {
-                    //java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Date
-                    Date date;
-                    try {
-                        date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
-                    } catch (ParseException ex) {
-                        date = new Date();
+                    if (propertyName.equals("startDate")) {
+                        //java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Date
+                        Date date;
+                        try {
+                            date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
+                        } catch (ParseException ex) {
+                            date = new Date();
+                        }
+                        constraint = cb.greaterThanOrEqualTo(p.get(propertyName), date);
+
+                    } else if (propertyName.equals("nights")) {
+
+                        constraint = cb.greaterThanOrEqualTo(p.get(propertyName), value);
+
+                    } else if (propertyName.equals("price")) {
+
+                        constraint = cb.lessThanOrEqualTo(p.get(propertyName), value);
+
+                    } else {
+                        try {
+                            constraint = cb.equal(p.get(propertyName), value);
+                        } catch (IllegalArgumentException ex) {
+                            //"submit_button" parameter came - it is not a field of TourView class
+                            //so let's proceed to the next cycle iteration
+                            continue;
+                        }
                     }
-                    constraint = cb.greaterThanOrEqualTo(p.get(propertyName), date);
-
-                } else if (propertyName.equals("nights")) {
-
-                    constraint = cb.greaterThanOrEqualTo(p.get(propertyName), value);
-
-                } else if (propertyName.equals("price")) {
-
-                    constraint = cb.lessThanOrEqualTo(p.get(propertyName), value);
-
-                } else {
-                    try {
-                        constraint = cb.equal(p.get(propertyName), value);
-                    } catch (IllegalArgumentException ex) {
-                        //"submit_button" parameter came - it is not a field of TourView class
-                        //so let's proceed to the next cycle iteration
-                        continue;
+                    if (condition == null) {
+                        condition = constraint;
+                    } else {
+                        condition = cb.and(condition, constraint); // добавляет новое условие к уже существующему предикату
                     }
-                }
-                if (condition == null) {
-                    condition = constraint;
-                } else {
-                    condition = cb.and(condition, constraint); // добавляет новое условие к уже существующему предикату
                 }
             }
         }

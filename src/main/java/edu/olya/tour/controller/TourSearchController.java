@@ -20,11 +20,10 @@ public class TourSearchController {
     @Autowired
     TourService tourService;
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping( method = RequestMethod.GET)
     public ModelAndView search(@RequestParam Map<String, String> searchParameters) {
-        //todo: deal with parameters
-        //List<TourView> tours = tourService.searchTours(request.getParameterMap());
-        List<TourView> tours = tourService.searchTours(searchParameters); //"null" - temporary
+
+        List<TourView> tours = tourService.searchTours(searchParameters);
         ModelMap model = new ModelMap();
         model.put("tours", tours);
         model.put("page", "tour_search.jsp");

@@ -25,6 +25,7 @@ public class Comment implements Serializable {
     private Date date;
 
     @Column(name = "comment", nullable = false)
+    //@Lob - this could be useful in order to create a column with a text object more than 255 symbols
     private String comment;
 
     public Comment() {}
