@@ -1,9 +1,13 @@
 package edu.olya.tour.model;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name="meal_types")
 public class MealType implements Serializable {
     @Id

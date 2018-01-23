@@ -6,10 +6,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
-@Aspect
+//@Aspect
 public class CacheManager {
 
-    @Around("@annotation(edu.olya.tour.utils.cache.CacheConfig) && @annotation(cacheConfig)")
+    //@Around("@annotation(edu.olya.tour.utils.cache.CacheConfig) && @annotation(cacheConfig)")
     public Object around(ProceedingJoinPoint pjp, CacheConfig cacheConfig) throws Throwable {
 
         boolean cacheEnabled = cacheConfig != null;

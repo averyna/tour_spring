@@ -15,6 +15,7 @@ public class FilterDAOImpl extends AbstractDAO implements FilterDAO {
     public List<Country> getAllCountries() {
         return getSession()
                 .createQuery("from Country")
+                .setCacheable(true)
                 .list();
     }
 
@@ -22,6 +23,7 @@ public class FilterDAOImpl extends AbstractDAO implements FilterDAO {
     public List<TourType> getAllTourTypes() {
         return getSession()
                 .createQuery("from TourType")
+                .setCacheable(true)
                 .list();
     }
 
@@ -29,6 +31,7 @@ public class FilterDAOImpl extends AbstractDAO implements FilterDAO {
     public List<MealType> getAllMealTypes() {
         return getSession()
                 .createQuery("from MealType")
+                .setCacheable(true)
                 .list();
     }
 
@@ -36,6 +39,7 @@ public class FilterDAOImpl extends AbstractDAO implements FilterDAO {
     public List<Hotel> getAllHotels() {
         return getSession()
                 .createQuery("from Hotel")
+                .setCacheable(true)
                 .list();
     }
 }
