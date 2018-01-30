@@ -14,14 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-//@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Service
 public class CommentServiceImpl implements CommentService {
-// Autowired указывает на то что при  создании объекта спрингом он
-// выполнит поиск связанного объекта в фабрике бинов и подставит ссылку
+
     @Autowired
     CommentDAO commentDAO;
-//propagation-распространение
+
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public List<Comment> getAllComments() {

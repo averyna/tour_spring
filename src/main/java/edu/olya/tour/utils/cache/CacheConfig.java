@@ -1,6 +1,6 @@
 package edu.olya.tour.utils.cache;
 
-import edu.olya.tour.utils.cache.impl.ExpirationEntityCache;
+import edu.olya.tour.utils.cache.impl.CacheImpl;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 public @interface CacheConfig {
-    Class<? extends Cache> cacheImpl() default ExpirationEntityCache.class;
+    Class<? extends Cache> cacheImpl() default CacheImpl.class;
     Scope scope() default Scope.APPLICATION;
     CacheParam[] params() default {};
 }

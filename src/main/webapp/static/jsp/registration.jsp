@@ -1,29 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Аверкина
-  Date: 29.09.2017
-  Time: 23:47
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Registration page</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/tour/static/styles/login.css">
 </head>
 <body>
-<h1>Регистрация нового пользователя</h1>
-<c:if test="${requestScope.user_exists}">
-   Пользователь с именем <b style="color: darkred"><c:out value="${param.name}"/></b>
-    и адресом электронной почты <b style="color: darkred"><c:out value="${param.email}"/></b>
-    уже существует! <br/> Введите другие данные для регистрации.
-</c:if>
 
-<form method='post' action='/tour/register'>
-    <input type='text' name='name' placeholder="Enter your name..." required style="display: block; margin: 5px;"/>
-    <input type='password' name='password' placeholder="Enter password..." required style="display: block;margin: 5px;"/>
-    <input type="submit" style="display: block; margin: 5px;"/>
-</form>
+<div class="login-page">
+    <div class="form">
+        <form:form action="/tour/mvc/register/" class="register-form" method="post" id="registration_form" modelAttribute="user">
+            <form:input type="text" path="name" name="name" placeholder="имя"/>
+            <form:input type="password" path="password" name="password" placeholder="пароль"/>
+            <%--<input type="password" name="confirm_password" placeholder="подтвердите пароль"/>--%>
+            <button>зарегистрироваться</button>
+            <p class="message">Уже регистрировались? <a href="/tour/login.jsp">Вход</a></p>
+        </form:form>
+    </div>
+</div>
 </body>
 </html>

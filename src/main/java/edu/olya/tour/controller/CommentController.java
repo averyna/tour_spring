@@ -49,7 +49,7 @@ public class CommentController {
 
     }
 
-    @RequestMapping (path = "/", method = RequestMethod.DELETE, headers = "id")
+    @RequestMapping (path = "/", method = RequestMethod.DELETE) //headers = "id"
     public void delComment(@RequestHeader("id") int id){
         commentService.deleteComment(id);
     }

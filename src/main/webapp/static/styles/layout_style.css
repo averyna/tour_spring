@@ -12,7 +12,6 @@ body {
     background-color: #f9f9f9;
     background-image: url(http://s.ubuntu.ru/img/bg_dotted.png);
     background-repeat: repeat;
-    /*font-family: Arial, sans-serif;*/
     font-family: 'Arial', sans-serif;
 }
 
@@ -96,19 +95,23 @@ body {
     position: relative;
     margin: 0;
     bottom: -20%;
-
 }
 
 .header_box p a:hover{
     background-color: #aaa;
 }
 
-.register {
+.header #right li {
     display:inline-block;
-    margin:5px;
-    color:#111;
-    /*text-decoration:none;*/
-    padding:14px 16px;
+    /*margin:5px;*/
+    /*color:#111;*/
+    /*text-decoration:underline;*/
+    padding: 2%;
+}
+
+.header #right li a{
+    color: #111;
+    text-decoration: underline;
 }
 /*clear floats after the colunms*/
 .header:after {
@@ -287,6 +290,10 @@ body {
     content: "";
     clear: both;
     display: table;
+}
+
+.text{
+    text-align: justify;
 }
 
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */

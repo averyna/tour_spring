@@ -22,33 +22,25 @@ public class FilterServiceImpl implements FilterService {
     @Autowired
     FilterDAO filterDAO;
 
-    @CacheConfig(params = {
-            @CacheParam(key = "expiration", value = "10000")
-    })
+    @CacheConfig
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Country> getAllCountries() {
         return filterDAO.getAllCountries();
     }
 
-    @CacheConfig(params = {
-            @CacheParam(key = "expiration", value = "10000")
-    })
+    @CacheConfig
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<TourType> getAllTourTypes() {
         return filterDAO.getAllTourTypes();
     }
 
-    @CacheConfig(params = {
-            @CacheParam(key = "expiration", value = "10000")
-    })
+    @CacheConfig
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<MealType> getAllMealTypes() {
         return filterDAO.getAllMealTypes();
     }
 
-    @CacheConfig(params = {
-            @CacheParam(key = "expiration", value = "10000")
-    })
+    @CacheConfig
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Hotel> getAllHotels() {
         return filterDAO.getAllHotels();

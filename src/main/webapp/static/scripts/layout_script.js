@@ -7,14 +7,14 @@ function  mailingClick () {
     document.getElementById("subscription").style.overflow = "visible";
 }
 
-function hide(){
-    document.getElementById('panel').style.display = 'none';
-    document.getElementById("right").style.overflow = "hidden";
-}
+//function hide(){
+//    document.getElementById('panel').style.display = 'none';
+//    document.getElementById("right").style.overflow = "hidden";
+//}
 
 function callSubmitButtonClick(form){
 
-    var url = "http://localhost:8080/tour/phoneCallQuery";
+    var url = "http://localhost:8080/tour/mvc/phoneCallQuery";
 
     if(form.firstname.value == ""){
         form.elements[0].focus();
@@ -41,7 +41,7 @@ function callSubmitButtonClick(form){
 
 function mailSubmitButtonClick(form){
     //"today":new Date()
-    var url = "http://localhost:8080/tour/mailSubscription";
+    var url = "http://localhost:8080/tour/mvc/mailSubscription";
 
     if(form.firstname.value == ""){
         form.elements[0].focus();
@@ -67,7 +67,7 @@ function mailSubmitButtonClick(form){
 }
 
 function confirm(form) {
-    var url = "http://localhost:8080/tour/comment";
+    var url = "http://localhost:8080/tour/mvc/comment/";
     var req = new XMLHttpRequest();
     req.open("DELETE", url, true);
     var id = form.comment_id.value;

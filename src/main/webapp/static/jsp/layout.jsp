@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE>
 <html lang="ru-ru">
@@ -30,16 +31,33 @@
         <div class="header_box" id="right">
             <button onclick="callButtonClick()">Заказать звонок менеджера</button>
             <div id="panel">
-                <form> <!-- onblur="hide()"-->
+                <form>
                     <input type="text" name="firstname" id="firstname" placeholder="Введите Ваше имя.." pattern="^[А-Яа-я]+$" required>
                     <input type="text" name="phone" id="phone" placeholder="Введите номер телефона .." required>
                     <input type="submit" value="Позвоните мне!" onclick="return callSubmitButtonClick(this.form)">
                 </form>
             </div>
             <c:set var="user" value="${sessionScope['edu.olya.tour.model.User']}"/>
-            <c:if test="${user != null}">
-                <h4> Вы вошли как <i style="color: darkred;"> <c:out value="${user.name}"/> </i></h4>
-            </c:if>
+
+            <sec:authorize access="isAnonymous()">
+                <ul>
+                    <li><a href="/tour/login.jsp">Вход</a></li>
+                    <li><a href="/tour/mvc/register/">Регистрация</a></li>
+                </ul>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <ul>
+                    <li>
+                        <h4>Добро пожаловать,
+                        <sec:authentication property="name"/>
+                        </h4>
+                    </li>
+                    <c:url var="logoutUrl" value="/do_logout"/>
+                    <li>
+                        <a href="${logoutUrl}">Log out</a>
+                    </li>
+                </ul>
+            </sec:authorize>
         </div>
     </div>
 
@@ -50,12 +68,10 @@
             <li><a href="/tour/mvc/tourSearch/">Горящие туры</a></li>
             <li><a href="/tour/mvc/view?page=contacts.jsp">Контакты</a></li>
             <li><a href="/tour/mvc/comment/">Отзывы</a></li>
-            <my:securedContent tagRole="admin">
-                <jsp:body>
-                    <li><a href="/tour/mvc/addTour/">Добавить тур</a></li>
-                    <li><a href="/tour/mvc/delTour/">Удалить тур</a></li>
-                </jsp:body>
-            </my:securedContent>
+            <sec:authorize access="hasAuthority('admin')">
+                <li><a href="/tour/mvc/addTour/">Добавить тур</a></li>
+                <li><a href="/tour/mvc/delTour/">Удалить тур</a></li>
+            </sec:authorize>
         </ul>
     </div>
 
@@ -107,8 +123,6 @@
         <div class= "footer_box">
             <h4 >Ссылки</h4>
             <ul>
-                <li><a href = "#sitemap">Карта сайта</a></li>
-                <li><a href = "#terms_of_use">Правила использования</a>
                 <li>
                     <form action="http://www.google.com/search" class="searchform" method="get"
                           name="searchform" target="_blank">

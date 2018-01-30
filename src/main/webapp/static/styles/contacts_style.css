@@ -1,0 +1,19 @@
+.contacts>h3 {
+    text-align: center;
+}
+.contacts>ul>li{
+    padding: 5px;
+}
+
+.parent {
+    position: relative;
+    padding: 1%;
+}
+
+.map {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    display: inline-block;
+    padding: 1%;
+}

@@ -4,6 +4,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:if test="${comments != null}">
     <c:forEach var="comment" items="${comments}" >
@@ -16,14 +17,12 @@
                 <div class="inner">
                     <c:out value="${comment['date']}" />
                 </div>
-                <my:securedContent tagRole="admin">
-                    <jsp:body>
+                     <sec:authorize access="hasAuthority('admin')">
                         <form class="del_comment">
                             <input type="hidden" class="comment_tag_input" id="comment_id" name="comment_id" value="${comment.id}">
                             <input type="submit" name="comment_submit_form" value="Удалить отзыв" onclick="return confirm(this.form)">
                         </form>
-                    </jsp:body>
-                </my:securedContent>
+                    </sec:authorize>
             </div>
 
             <div class="comment">
